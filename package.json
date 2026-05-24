@@ -6,8 +6,10 @@
     "build": "pnpm -r build",
     "frontend": "pnpm --filter frontend",
     "backend": "pnpm --filter backend",
+     "tunel": "cloudflared tunnel --url http://localhost:5173",
     "lint": "pnpm -r lint",
-    "prepare": "husky"
+    "format": "prettier --write -w .",
+    "prepare": "husky "
   },
   "dependencies": {
     "prettier": "^3.8.3"
