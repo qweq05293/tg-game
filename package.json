@@ -2,16 +2,18 @@
   "name": "tg-game",
   "version": "1.0.0",
   "scripts": {
-     "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
+    "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
     "build": "pnpm -r build",
-    "lint": "pnpm -r lint",
     "frontend": "pnpm --filter frontend",
-    "backend": "pnpm --filter backend"
+    "backend": "pnpm --filter backend",
+    "lint": "pnpm -r lint",
+    "prepare": "husky"
   },
   "dependencies": {
     "prettier": "^3.8.3"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "husky": "^9.1.7"
   }
 }
