@@ -6,7 +6,6 @@ export function App() {
 
   useEffect(() => {
     telegramLogin().then((loginData) => {
-      localStorage.setItem("token", loginData.token);
       setData(loginData);
     });
   }, []);

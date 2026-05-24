@@ -14,6 +14,14 @@ async function bootstrap(): Promise<void> {
     allowedHeaders: ["Content-Type", "Authorization"],
   });
 
+// const config = new DocumentBuilder()
+//   .setTitle("TG Game API")
+//   .setVersion("1.0")
+//   .build();
+
+// const document = SwaggerModule.createDocument(app, config);
+
+// SwaggerModule.setup("docs", app, document);
   const port = Number(env.PORT ?? 3000);
 
   await app.listen(port);
