@@ -1,15 +1,17 @@
 {
   "name": "tg-game",
   "version": "1.0.0",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "format": "prettier --write .",
-    "ins": "pnpm i -r"
+     "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "frontend": "pnpm --filter frontend",
+    "backend": "pnpm --filter backend"
   },
   "dependencies": {
-    "concurrently": "^9.2.1",
     "prettier": "^3.8.3"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }
