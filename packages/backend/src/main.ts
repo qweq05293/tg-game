@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import dotenv from "dotenv";
 import { AppModule } from "./app.module";
 import { env } from "./config/env.schema";
+import { ValidationPipe } from "@nestjs/common";
 dotenv.config();
 
 async function bootstrap(): Promise<void> {
@@ -14,7 +15,13 @@ async function bootstrap(): Promise<void> {
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   });
-
+app.useGlobalPipes(
+  new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  }),
+);
   const config = new DocumentBuilder()
     .setTitle("TG Game API")
     .setVersion("1.0")

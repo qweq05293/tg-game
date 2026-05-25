@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "gen:api": "openapi-typescript http://localhost:3000/docs-json -o src/api/types.ts",
+   "gen:api": "orval",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -42,6 +42,7 @@
     "i": "^0.3.7",
     "npm": "^11.15.0",
     "openapi-typescript": "^7.13.0",
+    "orval": "^8.12.3",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "~5.9.3",

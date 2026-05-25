@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiOkResponse } from "@nestjs/swagger";
-import { TelegramLoginResponseDto } from "./_dto/dto";
+import { TelegramLoginRequestDto, TelegramLoginResponseDto } from "./_dto/dto";
 import { AuthService } from "./auth.service";
 
 @Controller("auth")
@@ -9,7 +9,7 @@ export class AuthController {
 
   @Post("telegram")
   @ApiOkResponse({ type: TelegramLoginResponseDto })
-  login(@Body() body: { initData: string }): TelegramLoginResponseDto {
+  login(@Body() body: TelegramLoginRequestDto): TelegramLoginResponseDto {
     return this.authService.telegramLogin(body.initData);
   }
 }
