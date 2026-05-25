@@ -3,8 +3,8 @@ import { JwtService } from "@nestjs/jwt";
 import {
   parseInitData,
   verifyTelegramInitData,
-} from "./telegram/telegram-auth.util";
-import { TelegramUser } from "./telegram/telegram-tipes";
+} from "./_telegram/telegram-auth.util";
+import { TelegramUser } from "./_telegram/telegram-tipes";
 import { env } from "../config/env.schema";
 
 @Injectable()

@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
+    "gen:api": "openapi-typescript http://localhost:3000/docs-json -o src/api/types.ts",
     "preview": "vite preview"
   },
   "dependencies": {
