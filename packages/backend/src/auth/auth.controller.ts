@@ -9,7 +9,7 @@ export class AuthController {
 
   @Post("telegram")
   @ApiOkResponse({ type: TelegramLoginResponseDto })
-  login(@Body() body: TelegramLoginRequestDto): TelegramLoginResponseDto {
+  login(@Body() body: TelegramLoginRequestDto): Promise<TelegramLoginResponseDto> {
     return this.authService.telegramLogin(body.initData);
   }
 }

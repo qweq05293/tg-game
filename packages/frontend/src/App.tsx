@@ -10,7 +10,7 @@ export default function App() {
     WebApp.ready();
     WebApp.expand();
     const initData = WebApp.initData;
-
+    console.log("initData", initData);
     if (initData) {
       mutate({ data: { initData } });
     }

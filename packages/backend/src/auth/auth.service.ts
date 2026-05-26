@@ -1,17 +1,23 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { env } from "../config/env.schema";
+import { PrismaService } from "../prisma/prisma.service";
 import {
   parseInitData,
   verifyTelegramInitData,
 } from "./_telegram/telegram-auth.util";
 import { TelegramUser } from "./_telegram/telegram-tipes";
-import { env } from "../config/env.schema";
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  // Добавляем PrismaService в конструктор
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly prisma: PrismaService,
+  ) {}
 
-  telegramLogin(initData: string) {
+  async telegramLogin(initData: string) {
+    // Добавляем async, так как операции с БД асинхронны
     const botToken = env.BOT_TOKEN;
     const jwtSecret = env.JWT_SECRET;
 
@@ -35,23 +41,49 @@ export class AuthService {
       throw new UnauthorizedException("Invalid Telegram signature");
     }
 
-    const user = JSON.parse(data.user) as TelegramUser;
+    const tgUser = JSON.parse(data.user) as TelegramUser;
 
+    // Сохраняем или обновляем пользователя в PostgreSQL
+    const dbUser = await this.prisma.user.upsert({
+      where: {
+        telegramId: tgUser.id.toString(),
+      },
+      update: {
+        username: tgUser.username || null,
+        firstName: tgUser.first_name,
+        lastName: tgUser.last_name || null,
+        languageCode: tgUser.language_code || null,
+        allowsWriteToPm: tgUser.allows_write_to_pm || false,
+        photoUrl: tgUser.photo_url || null,
+      },
+      create: {
+        telegramId: tgUser.id.toString(),
+        username: tgUser.username || null,
+        firstName: tgUser.first_name,
+        lastName: tgUser.last_name || null,
+        languageCode: tgUser.language_code || null,
+        allowsWriteToPm: tgUser.allows_write_to_pm || false,
+        photoUrl: tgUser.photo_url || null,
+      },
+    });
+
+    // В payload токена теперь передаем внутренний id из базы данных (dbUser.id)
     const token = this.jwtService.sign(
       {
-        sub: user.id,
-        username: user.username,
+        id: dbUser.id,
+        telegramId: dbUser.telegramId,
+        username: dbUser.username,
         provider: "telegram",
       },
       {
         secret: jwtSecret,
-        expiresIn: "7d",
+        expiresIn: "1d",
       },
     );
 
     return {
       token,
-      user,
+      user: dbUser,
     };
   }
 }

@@ -14,12 +14,16 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  telegramId String   @unique // Уникальный индекс обязателен для upsert
-  username   String?
-  firstName  String?
-  lastName   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id              String   @id @default(uuid())
+  telegramId      String   @unique
+  username        String?
+  firstName       String
+  lastName        String?
+  languageCode    String?
+  allowsWriteToPm Boolean? @default(false)
+  photoUrl        String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
