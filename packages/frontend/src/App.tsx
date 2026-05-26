@@ -1,19 +1,33 @@
-import { useEffect, useState } from "react";
-import { telegramLogin } from "./lib/auth";
-import type { TelegramLoginResponseDto } from "./shared/api";
+import WebApp from "@twa-dev/sdk";
+import { useEffect } from "react";
+import { useAuthControllerLogin } from "./api/auth/auth";
 
-export function App() {
-  const [data, setData] = useState<TelegramLoginResponseDto | null>(null);
+export default function App() {
+  // Хук возвращает функцию для старта (mutate), состояние загрузки и данные ответа
+  const { mutate, data, isPending, error } = useAuthControllerLogin();
 
   useEffect(() => {
-    telegramLogin().then((loginData) => {
-      setData(loginData);
-    });
-  }, []);
-  if (!data) {
+    WebApp.ready();
+    WebApp.expand();
+    const initData = WebApp.initData;
+
+    if (initData) {
+      mutate({ data: { initData } });
+    }
+  }, [mutate]);
+
+  if (isPending) {
     return <div>Loading...</div>;
   }
-  return <div>{JSON.stringify(data, null, 2)}</div>;
-}
 
-export default App;
+  if (error) {
+    return <div>Error: {JSON.stringify(error)}</div>;
+  }
+
+  return (
+    <div>
+      <h1>Authenticated!</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}

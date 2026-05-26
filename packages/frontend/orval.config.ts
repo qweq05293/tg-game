@@ -1,12 +1,18 @@
+import dotenv from "dotenv";
 import { defineConfig } from "orval";
 
+dotenv.config();
+const backendUrl = process.env.VITE_BACK_BASE_URL;
 export default defineConfig({
   api: {
-    input: "http://localhost:3000/docs-json",
+    input: `${backendUrl}/docs-json`,
     output: {
-      target: "./src/shared/api.ts",
-      client: "fetch",
-      mode: "single",
+      target: "./src/api/api.ts",
+      client: "react-query",
+      mock: false,
+      mode: "tags-split",
+      schemas: "src/api/model",
+      baseUrl: backendUrl,
     },
   },
 });
