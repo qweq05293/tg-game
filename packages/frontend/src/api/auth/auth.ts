@@ -40,7 +40,7 @@ export const getAuthControllerLoginUrl = () => {
 
 
 
-  return `https://learners-trunk-cheque-contamination.trycloudflare.com/auth/telegram`
+  return `https://element-paso-uni-ian.trycloudflare.com/auth/telegram`
 }
 
 export const authControllerLogin = async (telegramLoginRequestDto: TelegramLoginRequestDto, options?: RequestInit): Promise<authControllerLoginResponse> => {

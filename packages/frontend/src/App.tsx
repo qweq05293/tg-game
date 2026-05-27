@@ -1,33 +1,24 @@
-import WebApp from "@twa-dev/sdk";
-import { useEffect } from "react";
-import { useAuthControllerLogin } from "./api/auth/auth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { TelegramBackButton } from "@/components/TelegramBackButton";
+import HomePage from "@/pages/HomePage";
+import SettingsPage from "@/pages/SettingsPage";
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/Login/LoginPage";
 
 export default function App() {
-  // Хук возвращает функцию для старта (mutate), состояние загрузки и данные ответа
-  const { mutate, data, isPending, error } = useAuthControllerLogin();
-
-  useEffect(() => {
-    WebApp.ready();
-    WebApp.expand();
-    const initData = WebApp.initData;
-    console.log("initData", initData);
-    if (initData) {
-      mutate({ data: { initData } });
-    }
-  }, [mutate]);
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {JSON.stringify(error)}</div>;
-  }
-
   return (
-    <div>
-      <h1>Authenticated!</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    // Обернули всё приложение в глобальный контейнер с поддержкой тем и анимацией смены цвета
+    <div className="bg-radial-primary min-h-screen w-full transition-colors duration-300">
+      <TelegramBackButton />
+
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

@@ -1,230 +1,77 @@
-/* eslint-disable react-refresh/only-export-components */
-import * as React from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import WebApp from "@twa-dev/sdk";
 
-type Theme = "dark" | "light" | "system";
-type ResolvedTheme = "dark" | "light";
-
-type ThemeProviderProps = {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
-  disableTransitionOnChange?: boolean;
-};
+type Theme = "dark" | "light";
+type AccentColor = "blue" | "green" | "red" | "yellow" | null;
 
 type ThemeProviderState = {
   theme: Theme;
+  color: AccentColor;
   setTheme: (theme: Theme) => void;
+  setColor: (color: AccentColor) => void;
 };
 
-const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)";
-const THEME_VALUES: Theme[] = ["dark", "light", "system"];
+// Создаем контекст (не экспортируем его наружу, чтобы не злить Fast Refresh)
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
 
-const ThemeProviderContext = React.createContext<
-  ThemeProviderState | undefined
->(undefined);
+const THEME_HEX_COLORS: Record<Theme, `#${string}`> = { light: "#f8fafc", dark: "#020617" };
+const COLOR_CLASSES: Exclude<AccentColor, null>[] = ["blue", "green", "red", "yellow"];
 
-function isTheme(value: string | null): value is Theme {
-  if (value === null) {
-    return false;
-  }
-
-  return THEME_VALUES.includes(value as Theme);
-}
-
-function getSystemTheme(): ResolvedTheme {
-  if (window.matchMedia(COLOR_SCHEME_QUERY).matches) {
-    return "dark";
-  }
-
-  return "light";
-}
-
-function disableTransitionsTemporarily() {
-  const style = document.createElement("style");
-  style.appendChild(
-    document.createTextNode(
-      "*,*::before,*::after{-webkit-transition:none!important;transition:none!important}",
-    ),
-  );
-  document.head.appendChild(style);
-
-  return () => {
-    window.getComputedStyle(document.body);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        style.remove();
-      });
-    });
-  };
-}
-
-function isEditableTarget(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
-    return false;
-  }
-
-  if (target.isContentEditable) {
-    return true;
-  }
-
-  const editableParent = target.closest(
-    "input, textarea, select, [contenteditable='true']",
-  );
-  if (editableParent) {
-    return true;
-  }
-
-  return false;
-}
-
-export function ThemeProvider({
-  children,
-  defaultTheme = "system",
-  storageKey = "theme",
-  disableTransitionOnChange = true,
-  ...props
-}: ThemeProviderProps) {
-  const [theme, setThemeState] = React.useState<Theme>(() => {
-    const storedTheme = localStorage.getItem(storageKey);
-    if (isTheme(storedTheme)) {
-      return storedTheme;
-    }
-
-    return defaultTheme;
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setThemeState] = useState<Theme>(() => WebApp.colorScheme === "light" ? "light" : "dark");
+  const [color, setColorState] = useState<AccentColor>(() => {
+    const saved = localStorage.getItem("tg-app-accent");
+    if (!saved || saved === "default") return null;
+    return saved as AccentColor;
   });
 
-  const setTheme = React.useCallback(
-    (nextTheme: Theme) => {
-      localStorage.setItem(storageKey, nextTheme);
-      setThemeState(nextTheme);
-    },
-    [storageKey],
-  );
+  useEffect(() => {
+    WebApp.enableClosingConfirmation();
+  }, []);
 
-  const applyTheme = React.useCallback(
-    (nextTheme: Theme) => {
-      const root = document.documentElement;
-      const resolvedTheme =
-        nextTheme === "system" ? getSystemTheme() : nextTheme;
-      const restoreTransitions = disableTransitionOnChange
-        ? disableTransitionsTemporarily()
-        : null;
+  useEffect(() => {
+    const root = window.document.documentElement;
 
-      root.classList.remove("light", "dark");
-      root.classList.add(resolvedTheme);
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
 
-      if (restoreTransitions) {
-        restoreTransitions();
-      }
-    },
-    [disableTransitionOnChange],
-  );
+    COLOR_CLASSES.forEach((cls) => root.classList.remove(`color-${cls}`));
 
-  React.useEffect(() => {
-    applyTheme(theme);
-
-    if (theme !== "system") {
-      return undefined;
+    if (color) {
+      root.classList.add(`color-${color}`);
+      localStorage.setItem("tg-app-accent", color);
+    } else {
+      localStorage.setItem("tg-app-accent", "default");
     }
 
-    const mediaQuery = window.matchMedia(COLOR_SCHEME_QUERY);
-    const handleChange = () => {
-      applyTheme("system");
-    };
+    const targetHex = THEME_HEX_COLORS[theme];
+    try {
+      WebApp.setHeaderColor(targetHex);
+      WebApp.setBackgroundColor(targetHex);
+    } catch (error) {
+      // Логируем ошибку или добавляем комментарий, чтобы ESLint не ругался на пустой catch
+      console.warn("Telegram WebApp color setup failed:", error);
+    }
+  }, [theme, color]);
 
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, [theme, applyTheme]);
-
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.repeat) {
-        return;
-      }
-
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return;
-      }
-
-      if (isEditableTarget(event.target)) {
-        return;
-      }
-
-      if (event.key.toLowerCase() !== "d") {
-        return;
-      }
-
-      setThemeState((currentTheme) => {
-        const nextTheme =
-          currentTheme === "dark"
-            ? "light"
-            : currentTheme === "light"
-              ? "dark"
-              : getSystemTheme() === "dark"
-                ? "light"
-                : "dark";
-
-        localStorage.setItem(storageKey, nextTheme);
-        return nextTheme;
-      });
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [storageKey]);
-
-  React.useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.storageArea !== localStorage) {
-        return;
-      }
-
-      if (event.key !== storageKey) {
-        return;
-      }
-
-      if (isTheme(event.newValue)) {
-        setThemeState(event.newValue);
-        return;
-      }
-
-      setThemeState(defaultTheme);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, [defaultTheme, storageKey]);
-
-  const value = React.useMemo(
-    () => ({
-      theme,
-      setTheme,
-    }),
-    [theme, setTheme],
-  );
+  useEffect(() => {
+    const handleThemeChange = () => setThemeState(WebApp.colorScheme === "light" ? "light" : "dark");
+    WebApp.onEvent("themeChanged", handleThemeChange);
+    return () => WebApp.offEvent("themeChanged", handleThemeChange);
+  }, []);
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={{ theme, color, setTheme: setThemeState, setColor: setColorState }}>
       {children}
     </ThemeProviderContext.Provider>
   );
 }
 
+// Чтобы обойти ограничение Fast Refresh на экспорт функций/хуков из файла с компонентом,
+// мы вешаем специальную директиву для ESLint на этот экспорт:
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = () => {
-  const context = React.useContext(ThemeProviderContext);
-
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-
+  const context = useContext(ThemeProviderContext);
+  if (!context) throw new Error("useTheme error");
   return context;
 };

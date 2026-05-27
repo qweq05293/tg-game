@@ -5,6 +5,11 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './dbUserDto';
+export * from './dbUserDtoAllowsWriteToPm';
+export * from './dbUserDtoLanguageCode';
+export * from './dbUserDtoLastName';
+export * from './dbUserDtoPhotoUrl';
+export * from './dbUserDtoUsername';
 export * from './telegramLoginRequestDto';
 export * from './telegramLoginResponseDto';
-export * from './telegramUserDto';
