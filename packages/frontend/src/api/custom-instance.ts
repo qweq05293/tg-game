@@ -6,9 +6,10 @@ import axios, {
   type AxiosResponse,
 } from "axios";
 import { toast } from "sonner"; // Заменили импорт
+import { BASE_URL } from "./env";
 
 export const AXIOS_INSTANCE = axios.create({
-  baseURL: import.meta.env.VITE_BACK_BASE_URL || "http://localhost:3000",
+  baseURL: BASE_URL,
   timeout: 10000,
 });
 

@@ -19,7 +19,10 @@ import type {
   TelegramLoginResponseDto
 } from '../model';
 
+import { customInstance } from '.././custom-instance';
 
+
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
@@ -40,40 +43,33 @@ export const getAuthControllerLoginUrl = () => {
 
 
 
-  return `https://element-paso-uni-ian.trycloudflare.com/auth/telegram`
+  return `https://between-cho-deluxe-suspended.trycloudflare.com/auth/telegram`
 }
 
 export const authControllerLogin = async (telegramLoginRequestDto: TelegramLoginRequestDto, options?: RequestInit): Promise<authControllerLoginResponse> => {
 
-  const res = await fetch(getAuthControllerLoginUrl(),
+  return customInstance<authControllerLoginResponse>(getAuthControllerLoginUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(telegramLoginRequestDto)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: authControllerLoginResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as authControllerLoginResponse
-}
+);}
 
 
 
 
 export const getAuthControllerLoginMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: TelegramLoginRequestDto}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: TelegramLoginRequestDto}, TContext>, request?: SecondParameter<typeof customInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: TelegramLoginRequestDto}, TContext> => {
 
 const mutationKey = ['authControllerLogin'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -81,7 +77,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerLogin>>, {data: TelegramLoginRequestDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  authControllerLogin(data,fetchOptions)
+          return  authControllerLogin(data,requestOptions)
         }
 
 
@@ -96,7 +92,7 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
     export type AuthControllerLoginMutationError = unknown
 
     export const useAuthControllerLogin = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: TelegramLoginRequestDto}, TContext>, fetch?: RequestInit}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: TelegramLoginRequestDto}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerLogin>>,
         TError,

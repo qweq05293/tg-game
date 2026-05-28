@@ -3,6 +3,7 @@ import { TelegramBackButton } from "@/components/TelegramBackButton";
 import HomePage from "@/pages/HomePage";
 import SettingsPage from "@/pages/SettingsPage";
 import { Route, Routes } from "react-router-dom";
+import { GameShell } from "./components/GameShell";
 import LoginPage from "./pages/Login/LoginPage";
 
 export default function App() {
@@ -15,8 +16,10 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route element={<GameShell />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+          </Route>
         </Route>
       </Routes>
     </div>

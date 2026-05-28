@@ -7,10 +7,6 @@ export default function LoginPage() {
 
   return (
    <div className="relative flex min-h-screen w-full flex-col items-center justify-center p-6 antialiased">
-
-      {/* Background Gradient Decorative Layer */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_60%)] dark:bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.15),transparent_60%)]" />
-
       {/* Content Container */}
       <div className="relative z-10 flex w-full max-w-sm flex-col items-center justify-center text-center">
         {isPending && <LoginLoading />}
