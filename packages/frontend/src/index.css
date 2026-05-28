@@ -188,7 +188,7 @@
     ) !important;
     background-attachment: fixed !important;
   }
-    /* Скрываем скроллбар для WebKit (Chrome, Safari, Telegram TWA) */
+  /* Скрываем скроллбар для WebKit (Chrome, Safari, Telegram TWA) */
   .scrollbar-hide::-webkit-scrollbar {
     display: none !important;
   }
@@ -196,6 +196,5 @@
   .scrollbar-hide {
     -ms-overflow-style: none !important;
     scrollbar-width: none !important;
-}
-
+  }
 }
