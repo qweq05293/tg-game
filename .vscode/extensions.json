@@ -17,6 +17,7 @@
     "PKief.material-icon-theme",
     "GitHub.github-vscode-theme",
     "mikestead.dotenv",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "dbaeumer.vscode-eslint"
   ]
 }

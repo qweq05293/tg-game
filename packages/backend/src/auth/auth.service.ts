@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { env } from "../config/env.schema";
 import { PrismaService } from "../prisma/prisma.service";
 import {
   parseInitData,
   verifyTelegramInitData,
 } from "./_telegram/telegram-auth.util";
-import { TelegramUser } from "./_telegram/telegram-tipes";
+import { JwtPayload, TelegramUser } from "./_telegram/telegram-tipes";
 
 @Injectable()
 export class AuthService {
@@ -14,12 +14,13 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
   ) {}
 
   async telegramLogin(initData: string) {
     // Добавляем async, так как операции с БД асинхронны
-    const botToken = env.BOT_TOKEN;
-    const jwtSecret = env.JWT_SECRET;
+    const botToken = this.configService.get<string>("BOT_TOKEN");
+    const jwtSecret = this.configService.get<string>("JWT_SECRET");
 
     if (!botToken || !jwtSecret) {
       throw new Error("Missing env vars");
@@ -68,18 +69,13 @@ export class AuthService {
     });
 
     // В payload токена теперь передаем внутренний id из базы данных (dbUser.id)
-    const token = this.jwtService.sign(
-      {
-        id: dbUser.id,
-        telegramId: dbUser.telegramId,
-        username: dbUser.username,
-        provider: "telegram",
-      },
-      {
-        secret: jwtSecret,
-        expiresIn: "1d",
-      },
-    );
+    const payload: JwtPayload = {
+      id: dbUser.id,
+      telegramId: dbUser.telegramId,
+      username: dbUser.username,
+      provider: "telegram",
+    };
+    const token = this.jwtService.sign(payload);
 
     return {
       token,

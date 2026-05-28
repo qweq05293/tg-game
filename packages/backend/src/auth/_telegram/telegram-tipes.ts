@@ -16,3 +16,13 @@ export type TelegramUser = {
   photo_url?: string;
   allows_write_to_pm?: boolean;
 };
+export interface JwtPayload {
+  id: string;
+  telegramId: string;
+  username?: string | null;
+  provider: "telegram";
+}
+
+export interface RequestWithUser extends Request {
+  user?: JwtPayload;
+}
