@@ -2,12 +2,12 @@ import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { useHaptic } from "@/hooks/useHaptic";
 import {
-    ArrowLeft,
-    Languages,
-    Moon,
-    Palette,
-    Settings,
-    Sun,
+  ArrowLeft,
+  Languages,
+  Moon,
+  Palette,
+  Settings,
+  Sun,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,11 @@ export default function SettingsPage() {
 
   // Добавляем дефолтный элемент с id: null
   const colors: { id: typeof color; nameKey: string; bgClass: string }[] = [
-    { id: null, nameKey: "color_default", bgClass: "bg-slate-400 dark:bg-slate-600" }, // Опция сброса
+    {
+      id: null,
+      nameKey: "color_default",
+      bgClass: "bg-slate-400 dark:bg-slate-600",
+    }, // Опция сброса
     { id: "blue", nameKey: "color_blue", bgClass: "bg-blue-500" },
     { id: "green", nameKey: "color_green", bgClass: "bg-emerald-500" },
     { id: "red", nameKey: "color_red", bgClass: "bg-rose-500" },
@@ -28,7 +32,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-6 antialiased">
+    <div className="flex  flex-col items-center justify-center p-6 antialiased">
       <div className="w-full max-w-sm space-y-6 rounded-2xl bg-white dark:bg-slate-900/40 p-6 border border-slate-200 dark:border-slate-800/80 shadow-md backdrop-blur-sm">
         <div className="text-center space-y-1">
           <Settings className="h-10 w-10 mx-auto text-primary mb-2" />
@@ -45,7 +49,11 @@ export default function SettingsPage() {
           className="w-full justify-between"
         >
           <span className="flex items-center gap-2">
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4" />
+            ) : (
+              <Moon className="h-4 w-4" />
+            )}
             {theme === "dark" ? t("theme_light") : t("theme_dark")}
           </span>
         </Button>

@@ -9,7 +9,7 @@ import LoginPage from "./pages/Login/LoginPage";
 export default function App() {
   return (
     // Обернули всё приложение в глобальный контейнер с поддержкой тем и анимацией смены цвета
-    <div className="bg-radial-primary min-h-screen w-full transition-colors duration-300">
+    <div className="bg-radial-primary min-h-screen w-full flex items-center justify-center transition-colors duration-300">
       <TelegramBackButton />
 
       <Routes>

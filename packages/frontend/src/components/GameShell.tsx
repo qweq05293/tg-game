@@ -8,7 +8,7 @@ export function GameShell() {
       // Здесь вы определяете Хедер и Футер, общие для ВСЕХ страниц игры
       header={<div className="font-bold">RPG World</div>}
       footer={
-        <div className="grid grid-cols-4 gap-1 p-2">
+        <div className="flex justify-around items-center gap-1 p-2">
            {/* Ваши кнопки навигации */}
            <span>Битва</span>
            <span>Карта</span>
