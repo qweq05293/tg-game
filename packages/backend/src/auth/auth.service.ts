@@ -1,16 +1,19 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
 import {
   parseInitData,
   verifyTelegramInitData,
-} from "./_telegram/telegram-auth.util";
-import { JwtPayload, TelegramUser } from "./_telegram/telegram-tipes";
+} from "./telegram/telegram-auth.util";
+import { JwtPayload, TelegramUser } from "./telegram/telegram-tipes";
 
 @Injectable()
 export class AuthService {
-  // Добавляем PrismaService в конструктор
   constructor(
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
@@ -18,33 +21,36 @@ export class AuthService {
   ) {}
 
   async telegramLogin(initData: string) {
-    // Добавляем async, так как операции с БД асинхронны
     const botToken = this.configService.get<string>("BOT_TOKEN");
     const jwtSecret = this.configService.get<string>("JWT_SECRET");
 
     if (!botToken || !jwtSecret) {
-      throw new Error("Missing env vars");
+      // Для ошибок сервера используем InternalServerErrorException (500) вместо базового Error
+      throw new InternalServerErrorException("Missing env configuration");
     }
 
+    // 1. Ошибка: пустые данные авторизации
     if (!initData) {
-      throw new UnauthorizedException("No initData");
+      throw new UnauthorizedException({ key: "err_auth_no_data" });
     }
 
     const data = parseInitData(initData);
     const authDate = Number(data.auth_date);
 
+    // 2. Ошибка: сессия Telegram Mini App устарела (больше 24 часов)
     if (Date.now() / 1000 - authDate > 86400) {
-      throw new UnauthorizedException("InitData expired");
+      throw new UnauthorizedException({ key: "err_auth_expired" });
     }
+
     const isValid = verifyTelegramInitData(initData, botToken);
 
+    // 3. Ошибка: поддельная или невалидная подпись данных Telegram
     if (!isValid) {
-      throw new UnauthorizedException("Invalid Telegram signature");
+      throw new UnauthorizedException({ key: "err_auth_invalid_signature" });
     }
 
     const tgUser = JSON.parse(data.user) as TelegramUser;
 
-    // Сохраняем или обновляем пользователя в PostgreSQL
     const dbUser = await this.prisma.user.upsert({
       where: {
         telegramId: tgUser.id.toString(),
@@ -68,7 +74,6 @@ export class AuthService {
       },
     });
 
-    // В payload токена теперь передаем внутренний id из базы данных (dbUser.id)
     const payload: JwtPayload = {
       id: dbUser.id,
       telegramId: dbUser.telegramId,

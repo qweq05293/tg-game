@@ -25,9 +25,26 @@ const resources = {
       color_red: "Red",
       color_yellow: "Yellow",
       color_reset: "Reset",
-       not_found_title: "Page Not Found",
-      not_found_desc: "The requested resource does not exist or has been moved.",
+      not_found_title: "Page Not Found",
+      not_found_desc:
+        "The requested resource does not exist or has been moved.",
       not_found_btn: "Go to Main",
+      // backend errors
+      err_character_not_found: "Character not found.",
+      err_stat_peak_reached:
+        "You have reached the peak of the current layer! Perform a breakthrough to level up {{statName}} further.",
+      err_insufficient_qi:
+        "Insufficient Qi. Required: {{cost}}, you have: {{current}}.",
+      err_breakthrough_not_ready:
+        "You have not yet reached the peak of the current stage (Layer 9 required).",
+      err_insufficient_qi_breakthrough:
+        "Insufficient Qi to break the celestial shackles! Required: {{cost}}.",
+      err_auth_no_data: "Authentication data is missing.",
+      err_auth_expired: "Session expired. Please reopen the app from Telegram.",
+      err_auth_invalid_signature:
+        "Security check failed. Invalid data signature.",
+         err_token_missing: "Session token is missing. Please log in again.",
+      err_token_invalid_or_expired: "Your session has expired. Re-authenticating...",
     },
   },
   ru: {
@@ -52,9 +69,26 @@ const resources = {
       color_red: "Красный",
       color_yellow: "Желтый",
       color_reset: "Сбросить",
-       not_found_title: "Страница не найдена",
+      not_found_title: "Страница не найдена",
       not_found_desc: "Запрашиваемый ресурс не существует или был перемещен.",
       not_found_btn: "На главную",
+      // backend errors
+      err_character_not_found: "Персонаж не найден.",
+      err_stat_peak_reached:
+        "Вы достигли пика текущего слоя! Совершите прорыв, чтобы качать {{statName}} дальше.",
+      err_insufficient_qi:
+        "Недостаточно Ци. Требуется: {{cost}}, у вас: {{current}}.",
+      err_breakthrough_not_ready:
+        "Вы еще не достигли пика текущей стадии (нужен 9 слой).",
+      err_insufficient_qi_breakthrough:
+        "Недостаточно Ци для прорыва небесных оков! Нужно: {{cost}}.",
+      err_auth_no_data: "Данные авторизации отсутствуют.",
+      err_auth_expired:
+        "Сессия устарела. Пожалуйста, перезапустите приложение из Telegram.",
+      err_auth_invalid_signature:
+        "Ошибка безопасности. Неверная цифровая подпись.",
+             err_token_missing: "Токен сессии отсутствует. Пожалуйста, войдите заново.",
+      err_token_invalid_or_expired: "Ваша сессия истекла. Обновление авторизации...",
     },
   },
 };

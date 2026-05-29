@@ -23,7 +23,34 @@ model User {
   allowsWriteToPm Boolean? @default(false)
   photoUrl        String?
 
+ character       Character?
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+model Character {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  name         String   @unique
+
+  // Система стадий (Сянся)
+  level        Int      @default(1)   // Текущий уровень внутри стадии (например, 1-9 слой)
+  stage        Int      @default(1)   // ID крупной стадии (1 = Конденсация Ци, 2 = Возведение Основания и т.д.)
+  exp          Int      @default(0)   // Наша Ци (Валюта для прокачки)
+  gold         Int      @default(10)  // Камни духа
+
+  // 4 РПГ параметра
+  strength     Int      @default(1)
+  spirit       Int      @default(1)
+  agility      Int      @default(1)
+  constitution Int      @default(1)
+
+  // Динамические параметры
+  hp           Int      @default(50)
+  maxHp        Int      @default(50)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

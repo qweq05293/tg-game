@@ -6,28 +6,32 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
-import { JwtPayload } from "./_telegram/telegram-tipes";
+import { JwtPayload } from "./telegram/telegram-tipes";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context
+      .switchToHttp()
+      .getRequest<Request & { user?: JwtPayload }>();
     const token = this.extractTokenFromHeader(request);
 
+    // 1. Ошибка: Токен полностью отсутствует в заголовках
     if (!token) {
-      throw new UnauthorizedException("Token missing");
+      throw new UnauthorizedException({ key: "err_token_missing" });
     }
 
     try {
-      // Верифицируем токен. Секрет подтянется автоматически, если JwtModule настроен правильно
+      // Верифицируем токен
       const payload: JwtPayload = await this.jwtService.verifyAsync(token);
 
-      // Записываем payload (id, telegramId и т.д.) в объект запроса
-      request["user"] = payload;
+      // Записываем payload в объект запроса
+      request.user = payload;
     } catch {
-      throw new UnauthorizedException("Invalid or expired token");
+      // 2. Ошибка: Токен подделан, поврежден или его срок действия истек
+      throw new UnauthorizedException({ key: "err_token_invalid_or_expired" });
     }
 
     return true;
