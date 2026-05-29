@@ -13,12 +13,13 @@ export default defineConfig({
       mode: "tags-split",
       schemas: "src/api/model",
       baseUrl: backendUrl,
-      //  override: {
-      //   mutator: {
-      //     path: "./src/api/custom-instance.ts",
-      //     name: "customInstance",
-      //   },
-      // },
+      httpClient: "axios",
+      override: {
+        mutator: {
+          path: "./src/lib/custom-instance.ts",
+          name: "customInstance",
+        },
+      },
     },
   },
 });

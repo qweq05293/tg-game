@@ -16,10 +16,10 @@ const ThemeProviderContext = createContext<ThemeProviderState | undefined>(
   undefined,
 );
 
-const THEME_HEX_COLORS: Record<Theme, `#${string}`> = {
-  light: "#fff",
-  dark: "#0f0f0f",
-};
+// const THEME_HEX_COLORS: Record<Theme, `#${string}`> = {
+//   light: "#fff",
+//   dark: "#0f0f0f",
+// };
 const COLOR_CLASSES: Exclude<AccentColor, null>[] = [
   "blue",
   "green",
@@ -56,14 +56,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem("tg-app-accent", "default");
     }
 
-    const targetHex = THEME_HEX_COLORS[theme];
-    try {
-      WebApp.setHeaderColor(targetHex);
-      WebApp.setBackgroundColor(targetHex);
-    } catch (error) {
-      // Логируем ошибку или добавляем комментарий, чтобы ESLint не ругался на пустой catch
-      console.warn("Telegram WebApp color setup failed:", error);
-    }
+    // const targetHex = THEME_HEX_COLORS[theme];
+    // try {
+    //   WebApp.setHeaderColor(targetHex);
+    //   WebApp.setBackgroundColor(targetHex);
+    // } catch (error) {
+    //   // Логируем ошибку или добавляем комментарий, чтобы ESLint не ругался на пустой catch
+    //   console.warn("Telegram WebApp color setup failed:", error);
+    // }
   }, [theme, color]);
 
   useEffect(() => {

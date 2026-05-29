@@ -1,9 +1,9 @@
-import { useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import WebApp from "@twa-dev/sdk";
-import { useAuthControllerLogin } from "../../../api/auth/auth";
-import { useAuthStore } from "@/store/useAuthStore";
 import { useHaptic } from "@/hooks/useHaptic";
+import { useAuthStore } from "@/store/useAuthStore";
+import WebApp from "@twa-dev/sdk";
+import { useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthControllerLogin } from "../../../api/auth/auth";
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -29,9 +29,9 @@ export function useLogin() {
 
   // Successful authorization
   useEffect(() => {
-    if (data?.data) {
+    if (data) {
       notificationSuccess();
-      setAuth(data.data.token, data.data.user);
+      setAuth(data.token, data.user);
       navigate("/", { replace: true });
     }
   }, [data, navigate, setAuth, notificationSuccess]);
