@@ -25,6 +25,9 @@ const resources = {
       color_red: "Red",
       color_yellow: "Yellow",
       color_reset: "Reset",
+       not_found_title: "Page Not Found",
+      not_found_desc: "The requested resource does not exist or has been moved.",
+      not_found_btn: "Go to Main",
     },
   },
   ru: {
@@ -49,6 +52,9 @@ const resources = {
       color_red: "Красный",
       color_yellow: "Желтый",
       color_reset: "Сбросить",
+       not_found_title: "Страница не найдена",
+      not_found_desc: "Запрашиваемый ресурс не существует или был перемещен.",
+      not_found_btn: "На главную",
     },
   },
 };

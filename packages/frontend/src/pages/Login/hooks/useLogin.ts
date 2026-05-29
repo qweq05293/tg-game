@@ -1,16 +1,17 @@
 import { useHaptic } from "@/hooks/useHaptic";
+import { sleep } from "@/lib/sleep";
 import { useAuthStore } from "@/store/useAuthStore";
 import WebApp from "@twa-dev/sdk";
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthControllerLogin } from "../../../api/auth/auth";
 
-export function useLogin() {
+export  function useLogin() {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
   const { notificationError, notificationSuccess } = useHaptic();
 
-  const { mutate, data, isPending, error } = useAuthControllerLogin();
+  const { mutate, data, error } = useAuthControllerLogin();
 
   // Wrap handleLogin in useCallback to maintain a stable reference
   const handleLogin = useCallback(() => {
@@ -29,11 +30,14 @@ export function useLogin() {
 
   // Successful authorization
   useEffect(() => {
-    if (data) {
+    (async ()=>{
+   if (data) {
       notificationSuccess();
       setAuth(data.token, data.user);
+      await sleep(1500)
       navigate("/", { replace: true });
     }
+    })()
   }, [data, navigate, setAuth, notificationSuccess]);
 
   // Authorization error
@@ -44,7 +48,6 @@ export function useLogin() {
   }, [error, notificationError]);
 
   return {
-    isPending,
     error,
     handleLogin,
   };
