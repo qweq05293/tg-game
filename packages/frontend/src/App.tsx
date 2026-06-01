@@ -1,13 +1,14 @@
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { TelegramBackButton } from "@/components/TelegramBackButton";
 import HomePage from "@/pages/HomePage";
-import SettingsPage from "@/pages/SettingsPage";
 import NotFoundPage from "@/pages/NotFoundPage"; // Создайте этот компонент
+import SettingsPage from "@/pages/SettingsPage";
+import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { GameShell } from "./components/GameShell";
-import LoginPage from "./pages/Login/LoginPage";
-import { useEffect } from "react";
 import { injectNavigate } from "./lib/custom-instance"; // Путь к вашему кастомному инстансу
+import CharacterPage from "./pages/CharacterPage";
+import LoginPage from "./pages/Login/LoginPage";
 
 export default function App() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<GameShell />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/character" element={<CharacterPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Route>

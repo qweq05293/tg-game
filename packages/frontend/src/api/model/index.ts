@@ -6,6 +6,7 @@
  */
 
 export * from './characterResponseDto';
+export * from './characterWithPendingResponseDto';
 export * from './dbUserDto';
 export * from './dbUserDtoAllowsWriteToPm';
 export * from './dbUserDtoLanguageCode';

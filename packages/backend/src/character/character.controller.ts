@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import {
   ApiBearerAuth,
   ApiOkResponse,
@@ -9,7 +9,11 @@ import { AuthGuard } from "../auth/auth.guard";
 import { CurrentUser } from "../auth/current-user.decorator";
 import type { JwtPayload } from "../auth/telegram/telegram-tipes";
 import { CharacterService } from "./character.service";
-import { CharacterResponseDto, UpgradeStatDto } from "./dto/upgrade-stat.dto";
+import {
+  CharacterResponseDto,
+  CharacterWithPendingResponseDto, // Импортируем новое DTO
+  UpgradeStatDto,
+} from "./dto/upgrade-stat.dto";
 
 @ApiTags("character")
 @ApiBearerAuth()
@@ -18,18 +22,33 @@ import { CharacterResponseDto, UpgradeStatDto } from "./dto/upgrade-stat.dto";
 export class CharacterController {
   constructor(private readonly characterService: CharacterService) {}
 
+  @Get("me")
+  @ApiOperation({
+    summary: "Получить профиль персонажа с учетом накопленной Ци",
+  })
+  @ApiOkResponse({ type: CharacterWithPendingResponseDto }) // Используем расширенное DTO
+  async getMe(
+    @CurrentUser() user: JwtPayload,
+  ): Promise<CharacterWithPendingResponseDto> {
+    return this.characterService.getCharacterWithPending(user.id);
+  }
+
+  @Post("claim-qi")
+  @ApiOperation({ summary: "Забрать накопленную пассивную Ци" })
+  @ApiOkResponse({ type: CharacterResponseDto }) // Используем расширенное DTO
+  async claimQi(
+    @CurrentUser() user: JwtPayload,
+  ): Promise<CharacterResponseDto> {
+    return this.characterService.claimQi(user.id);
+  }
+
   @Post("upgrade-stat")
   @ApiOperation({ summary: "Прокачка характеристик персонажа за Ци" })
-  @ApiOkResponse({
-    type: CharacterResponseDto, // Указываем класс ответа для Swagger/Orval
-    description:
-      "Характеристика успешно повышена, возвращен обновленный персонаж.",
-  })
+  @ApiOkResponse({ type: CharacterResponseDto }) // Чистый персонаж без AFK-полей
   async upgradeStat(
     @CurrentUser() user: JwtPayload,
     @Body() dto: UpgradeStatDto,
   ): Promise<CharacterResponseDto> {
-    // Добавили строгий тип возвращаемого промиса
     return this.characterService.upgradeStat(user.id, dto);
   }
 
@@ -37,14 +56,10 @@ export class CharacterController {
   @ApiOperation({
     summary: "Совершение ручного прорыва на следующую крупную стадию",
   })
-  @ApiOkResponse({
-    type: CharacterResponseDto, // Указываем класс ответа для Swagger/Orval
-    description: "Персонаж совершил прорыв. Возвращен обновленный персонаж.",
-  })
+  @ApiOkResponse({ type: CharacterResponseDto }) // Чистый персонаж без AFK-полей
   async breakthrough(
     @CurrentUser() user: JwtPayload,
   ): Promise<CharacterResponseDto> {
-    // Добавили строгий тип возвращаемого промиса
     return this.characterService.breakthrough(user.id);
   }
 }

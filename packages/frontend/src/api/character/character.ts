@@ -5,17 +5,27 @@
  * OpenAPI spec version: 1.0
  */
 import {
-  useMutation
+  useMutation,
+  useQuery
 } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
-  UseMutationResult
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
   CharacterResponseDto,
+  CharacterWithPendingResponseDto,
   UpgradeStatDto
 } from '../model';
 
@@ -28,6 +38,159 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 /**
+ * @summary Получить профиль персонажа с учетом накопленной Ци
+ */
+export const characterControllerGetMe = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<CharacterWithPendingResponseDto>(
+      {url: `https://dicke-animals-grocery-acid.trycloudflare.com/character/me`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getCharacterControllerGetMeQueryKey = () => {
+    return [
+    `https://dicke-animals-grocery-acid.trycloudflare.com/character/me`
+    ] as const;
+    }
+
+
+export const getCharacterControllerGetMeQueryOptions = <TData = Awaited<ReturnType<typeof characterControllerGetMe>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof characterControllerGetMe>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCharacterControllerGetMeQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof characterControllerGetMe>>> = ({ signal }) => characterControllerGetMe(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof characterControllerGetMe>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CharacterControllerGetMeQueryResult = NonNullable<Awaited<ReturnType<typeof characterControllerGetMe>>>
+export type CharacterControllerGetMeQueryError = ErrorType<unknown>
+
+
+export function useCharacterControllerGetMe<TData = Awaited<ReturnType<typeof characterControllerGetMe>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof characterControllerGetMe>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof characterControllerGetMe>>,
+          TError,
+          Awaited<ReturnType<typeof characterControllerGetMe>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCharacterControllerGetMe<TData = Awaited<ReturnType<typeof characterControllerGetMe>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof characterControllerGetMe>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof characterControllerGetMe>>,
+          TError,
+          Awaited<ReturnType<typeof characterControllerGetMe>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useCharacterControllerGetMe<TData = Awaited<ReturnType<typeof characterControllerGetMe>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof characterControllerGetMe>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Получить профиль персонажа с учетом накопленной Ци
+ */
+
+export function useCharacterControllerGetMe<TData = Awaited<ReturnType<typeof characterControllerGetMe>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof characterControllerGetMe>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCharacterControllerGetMeQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+/**
+ * @summary Забрать накопленную пассивную Ци
+ */
+export const characterControllerClaimQi = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<CharacterResponseDto>(
+      {url: `https://dicke-animals-grocery-acid.trycloudflare.com/character/claim-qi`, method: 'POST', signal
+    },
+      options);
+    }
+
+
+
+export const getCharacterControllerClaimQiMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof characterControllerClaimQi>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof characterControllerClaimQi>>, TError,void, TContext> => {
+
+const mutationKey = ['characterControllerClaimQi'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof characterControllerClaimQi>>, void> = () => {
+
+
+          return  characterControllerClaimQi(requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CharacterControllerClaimQiMutationResult = NonNullable<Awaited<ReturnType<typeof characterControllerClaimQi>>>
+
+    export type CharacterControllerClaimQiMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Забрать накопленную пассивную Ци
+ */
+export const useCharacterControllerClaimQi = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof characterControllerClaimQi>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof characterControllerClaimQi>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getCharacterControllerClaimQiMutationOptions(options), queryClient);
+    }
+    /**
  * @summary Прокачка характеристик персонажа за Ци
  */
 export const characterControllerUpgradeStat = (
@@ -37,7 +200,7 @@ export const characterControllerUpgradeStat = (
 
 
       return customInstance<CharacterResponseDto>(
-      {url: `https://surround-steven-clan-residential.trycloudflare.com/character/upgrade-stat`, method: 'POST',
+      {url: `https://dicke-animals-grocery-acid.trycloudflare.com/character/upgrade-stat`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: upgradeStatDto, signal
     },
@@ -100,7 +263,7 @@ export const characterControllerBreakthrough = (
 
 
       return customInstance<CharacterResponseDto>(
-      {url: `https://surround-steven-clan-residential.trycloudflare.com/character/breakthrough`, method: 'POST', signal
+      {url: `https://dicke-animals-grocery-acid.trycloudflare.com/character/breakthrough`, method: 'POST', signal
     },
       options);
     }

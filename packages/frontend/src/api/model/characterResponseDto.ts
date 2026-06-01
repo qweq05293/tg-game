@@ -6,30 +6,16 @@
  */
 
 export interface CharacterResponseDto {
-  /** Уникальный ID персонажа */
   id: string;
-  /** ID владельца персонажа */
   userId: string;
-  /** Текущая стадия прорыва (Stage) */
   stage: number;
-  /** Текущий слой внутри стадии (Level) */
   level: number;
-  /** Текущее количество Ци (Exp) */
   exp: number;
-  /** Сила (Strength) */
   strength: number;
-  /** Дух (Spirit) */
   spirit: number;
-  /** Ловкость (Agility) */
   agility: number;
-  /** Телосложение (Constitution) */
   constitution: number;
-  /** Максимальное здоровье */
   maxHp: number;
-  /** Текущее здоровье */
   hp: number;
-  /** Дата создания */
-  createdAt: string;
-  /** Дата обновления */
-  updatedAt: string;
+  lastClaimAt: string;
 }

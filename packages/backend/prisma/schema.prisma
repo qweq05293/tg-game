@@ -41,6 +41,7 @@ model Character {
   exp          Int      @default(0)   // Наша Ци (Валюта для прокачки)
   gold         Int      @default(10)  // Камни духа
 
+  lastClaimAt  DateTime @default(now()) // Время последнего сбора Ци
   // 4 РПГ параметра
   strength     Int      @default(1)
   spirit       Int      @default(1)

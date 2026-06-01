@@ -71,6 +71,23 @@ export class AuthService {
         languageCode: tgUser.language_code || null,
         allowsWriteToPm: tgUser.allows_write_to_pm || false,
         photoUrl: tgUser.photo_url || null,
+        character: {
+          create: {
+            name: tgUser.username
+              ? `@${tgUser.username}`
+              : `${tgUser.first_name}'s Character`,
+            stage: 1,
+            level: 1,
+            exp: 100, // Дадим немного начальной Ци на первый апгрейд!
+            strength: 1,
+            spirit: 1,
+            agility: 1,
+            constitution: 1,
+            maxHp: 100,
+            hp: 100,
+            lastClaimAt: new Date(), // Важно для AFK-дохода!
+          },
+        },
       },
     });
 

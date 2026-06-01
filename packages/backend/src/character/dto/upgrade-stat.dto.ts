@@ -6,52 +6,37 @@ export class UpgradeStatDto {
   @IsIn(["strength", "spirit", "agility", "constitution"])
   statName!: "strength" | "spirit" | "agility" | "constitution";
 }
+
+// 1. Базовый тип персонажа (для прокачки и прорыва)
 export class CharacterResponseDto {
-  @ApiProperty({
-    example: "clux1234567890",
-    description: "Уникальный ID персонажа",
-  })
-  id!: string;
+  @ApiProperty({ example: "id123" }) id!: string;
+  @ApiProperty({ example: "user123" }) userId!: string;
+  @ApiProperty({ example: 1 }) stage!: number;
+  @ApiProperty({ example: 1 }) level!: number;
+  @ApiProperty({ example: 0 }) exp!: number;
+  @ApiProperty({ example: 10 }) strength!: number;
+  @ApiProperty({ example: 10 }) spirit!: number;
+  @ApiProperty({ example: 10 }) agility!: number;
+  @ApiProperty({ example: 10 }) constitution!: number;
+  @ApiProperty({ example: 100 }) maxHp!: number;
+  @ApiProperty({ example: 100 }) hp!: number;
+  @ApiProperty({ example: "2026-05-29T19:19:11.000Z" }) lastClaimAt!: Date;
+}
+
+// 2. Расширенный тип персонажа (ТОЛЬКО для получения профиля и сбора Ци)
+export class CharacterWithPendingResponseDto extends CharacterResponseDto {
+  @ApiProperty({ example: 150, description: "Накопленная Ци, готовая к сбору" })
+  pendingQi!: number;
 
   @ApiProperty({
-    example: "user_id_from_db",
-    description: "ID владельца персонажа",
+    example: false,
+    description: "Заполнен ли склад пассивного дохода",
   })
-  userId!: string;
-
-  @ApiProperty({ example: 1, description: "Текущая стадия прорыва (Stage)" })
-  stage!: number;
+  isStorageFull!: boolean;
 
   @ApiProperty({
-    example: 1,
-    description: "Текущий слой внутри стадии (Level)",
+    example: 28800,
+    description: "Сколько секунд осталось до полного заполнения склада",
   })
-  level!: number;
-
-  @ApiProperty({ example: 0, description: "Текущее количество Ци (Exp)" })
-  exp!: number;
-
-  @ApiProperty({ example: 10, description: "Сила (Strength)" })
-  strength!: number;
-
-  @ApiProperty({ example: 10, description: "Дух (Spirit)" })
-  spirit!: number;
-
-  @ApiProperty({ example: 10, description: "Ловкость (Agility)" })
-  agility!: number;
-
-  @ApiProperty({ example: 10, description: "Телосложение (Constitution)" })
-  constitution!: number;
-
-  @ApiProperty({ example: 100, description: "Максимальное здоровье" })
-  maxHp!: number;
-
-  @ApiProperty({ example: 100, description: "Текущее здоровье" })
-  hp!: number;
-
-  @ApiProperty({ description: "Дата создания" })
-  createdAt!: Date;
-
-  @ApiProperty({ description: "Дата обновления" })
-  updatedAt!: Date;
+  storageSecondsLeft!: number;
 }

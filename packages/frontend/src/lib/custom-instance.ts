@@ -1,5 +1,6 @@
 import Axios, { type AxiosRequestConfig, type AxiosError } from 'axios';
 import { BACK_URL } from './env';
+import { useAuthStore } from '@/store/useAuthStore'; // Import your Zustand store
 
 // Локальная переменная для хранения функции роутера
 let axiosNavigate: ((path: string, options?: { replace?: boolean }) => void) | null = null;
@@ -12,6 +13,23 @@ export const injectNavigate = (navigateFn: typeof axiosNavigate) => {
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: BACK_URL,
 });
+
+// ГЛОБАЛЬНЫЙ ПЕРЕХВАТЧИК ЗАПРОСОВ (Добавляет JWT токен к каждому запросу)
+AXIOS_INSTANCE.interceptors.request.use(
+  (config) => {
+    // Динамически забираем токен из стейта Zustand
+    const token = useAuthStore.getState().token;
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Response interceptor
 AXIOS_INSTANCE.interceptors.response.use(
