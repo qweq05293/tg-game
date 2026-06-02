@@ -5,7 +5,7 @@ import { GameLayout } from "./GameLayout";
 import { useTranslation } from "react-i18next";
 
 export function GameShell() {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   return (
     <GameLayout
       // Здесь вы определяете Хедер и Футер, общие для ВСЕХ страниц игры

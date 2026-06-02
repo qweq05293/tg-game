@@ -4,11 +4,11 @@
  * TG Game API
  * OpenAPI spec version: 1.0
  */
-import type { DbUserDtoAllowsWriteToPm } from './dbUserDtoAllowsWriteToPm';
-import type { DbUserDtoLanguageCode } from './dbUserDtoLanguageCode';
-import type { DbUserDtoLastName } from './dbUserDtoLastName';
-import type { DbUserDtoPhotoUrl } from './dbUserDtoPhotoUrl';
-import type { DbUserDtoUsername } from './dbUserDtoUsername';
+import type { DbUserDtoAllowsWriteToPm } from "./dbUserDtoAllowsWriteToPm";
+import type { DbUserDtoLanguageCode } from "./dbUserDtoLanguageCode";
+import type { DbUserDtoLastName } from "./dbUserDtoLastName";
+import type { DbUserDtoPhotoUrl } from "./dbUserDtoPhotoUrl";
+import type { DbUserDtoUsername } from "./dbUserDtoUsername";
 
 export interface DbUserDto {
   id: string;

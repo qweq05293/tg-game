@@ -3,7 +3,7 @@ import { LoginLoading } from "./components/LoginLoading";
 import { useLogin } from "./hooks/useLogin";
 
 export default function LoginPage() {
-  const {  error, handleLogin } = useLogin();
+  const { error, handleLogin } = useLogin();
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center p-6 antialiased">

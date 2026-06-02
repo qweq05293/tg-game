@@ -1,9 +1,11 @@
-import Axios, { type AxiosRequestConfig, type AxiosError } from 'axios';
-import { BACK_URL } from './env';
-import { useAuthStore } from '@/store/useAuthStore'; // Import your Zustand store
+import Axios, { type AxiosRequestConfig, type AxiosError } from "axios";
+import { BACK_URL } from "./env";
+import { useAuthStore } from "@/store/useAuthStore"; // Import your Zustand store
 
 // Локальная переменная для хранения функции роутера
-let axiosNavigate: ((path: string, options?: { replace?: boolean }) => void) | null = null;
+let axiosNavigate:
+  | ((path: string, options?: { replace?: boolean }) => void)
+  | null = null;
 
 // Функция, которую мы вызываем в App.tsx для связи роутера и Axios
 export const injectNavigate = (navigateFn: typeof axiosNavigate) => {
@@ -28,7 +30,7 @@ AXIOS_INSTANCE.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -41,9 +43,9 @@ AXIOS_INSTANCE.interceptors.response.use(
     // 1. Обработка 401 Unauthorized
     if (status === 401) {
       if (axiosNavigate) {
-        axiosNavigate('/login', { replace: true });
+        axiosNavigate("/login", { replace: true });
       } else {
-        window.location.href = '/login'; // Фолбэк, если роутер еще не инициализировался
+        window.location.href = "/login"; // Фолбэк, если роутер еще не инициализировался
       }
       return Promise.reject(error);
     }
@@ -51,11 +53,11 @@ AXIOS_INSTANCE.interceptors.response.use(
     // 2. Обработка 404 Not Found
     if (status === 404) {
       // Редиректим только безопасные GET-запросы на получение данных
-      if (method === 'get') {
+      if (method === "get") {
         if (axiosNavigate) {
-          axiosNavigate('/404');
+          axiosNavigate("/404");
         } else {
-          window.location.href = '/404';
+          window.location.href = "/404";
         }
       }
     }

@@ -14,6 +14,7 @@
     "tunel": "tsx scripts/update-env.ts",
     "lint": "pnpm -r lint",
     "format": "prettier --write -w .",
+    "test": "pnpm -f backend test && pnpm -f backend test:e2e && pnpm -f frontend test ",
     "prepare": "husky "
   },
   "dependencies": {

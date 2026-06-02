@@ -43,19 +43,21 @@ const resources = {
       err_auth_expired: "Session expired. Please reopen the app from Telegram.",
       err_auth_invalid_signature:
         "Security check failed. Invalid data signature.",
-         err_token_missing: "Session token is missing. Please log in again.",
-      err_token_invalid_or_expired: "Your session has expired. Re-authenticating...",
-      err_claim_too_early: "It is too early, spiritual energy has not yet condensed.",
+      err_token_missing: "Session token is missing. Please log in again.",
+      err_token_invalid_or_expired:
+        "Your session has expired. Re-authenticating...",
+      err_claim_too_early:
+        "It is too early, spiritual energy has not yet condensed.",
     },
-     menu_character: "Character Cultivation",
-      stat_strength: "Strength",
-      stat_spirit: "Spirit",
-      stat_agility: "Agility",
-      stat_constitution: "Constitution",
-      layer: "Layer {{level}}",
-      stage_title: "Stage {{stage}}",
-      claim_qi_btn: "Condense Qi",
-      upgrade_btn: "Upgrade",
+    menu_character: "Character Cultivation",
+    stat_strength: "Strength",
+    stat_spirit: "Spirit",
+    stat_agility: "Agility",
+    stat_constitution: "Constitution",
+    layer: "Layer {{level}}",
+    stage_title: "Stage {{stage}}",
+    claim_qi_btn: "Condense Qi",
+    upgrade_btn: "Upgrade",
   },
   ru: {
     translation: {
@@ -97,10 +99,12 @@ const resources = {
         "Сессия устарела. Пожалуйста, перезапустите приложение из Telegram.",
       err_auth_invalid_signature:
         "Ошибка безопасности. Неверная цифровая подпись.",
-             err_token_missing: "Токен сессии отсутствует. Пожалуйста, войдите заново.",
-      err_token_invalid_or_expired: "Ваша сессия истекла. Обновление авторизации...",
+      err_token_missing:
+        "Токен сессии отсутствует. Пожалуйста, войдите заново.",
+      err_token_invalid_or_expired:
+        "Ваша сессия истекла. Обновление авторизации...",
       err_claim_too_early: "Слишком рано, духовная энергия еще не сгустилась.",
-        menu_character: "Развитие Персонажа",
+      menu_character: "Развитие Персонажа",
       stat_strength: "Сила",
       stat_spirit: "Дух",
       stat_agility: "Ловкость",

@@ -6,7 +6,7 @@ import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthControllerLogin } from "../../../api/auth/auth";
 
-export  function useLogin() {
+export function useLogin() {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
   const { notificationError, notificationSuccess } = useHaptic();
@@ -30,14 +30,14 @@ export  function useLogin() {
 
   // Successful authorization
   useEffect(() => {
-    (async ()=>{
-   if (data) {
-      notificationSuccess();
-      setAuth(data.token, data.user);
-      await sleep(1500)
-      navigate("/", { replace: true });
-    }
-    })()
+    (async () => {
+      if (data) {
+        notificationSuccess();
+        setAuth(data.token, data.user);
+        await sleep(1500);
+        navigate("/", { replace: true });
+      }
+    })();
   }, [data, navigate, setAuth, notificationSuccess]);
 
   // Authorization error

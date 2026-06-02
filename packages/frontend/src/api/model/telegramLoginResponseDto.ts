@@ -4,7 +4,7 @@
  * TG Game API
  * OpenAPI spec version: 1.0
  */
-import type { DbUserDto } from './dbUserDto';
+import type { DbUserDto } from "./dbUserDto";
 
 export interface TelegramLoginResponseDto {
   token: string;

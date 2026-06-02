@@ -9,7 +9,6 @@ export default function NotFoundPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center p-6 text-center antialiased">
-
       {/* Иконка с мягким свечением */}
       <div className="relative mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-muted/30 text-muted-foreground backdrop-blur-md">
         <FileQuestion className="h-12 w-12 stroke-[1.5] animate-pulse" />
@@ -40,7 +39,6 @@ export default function NotFoundPage() {
           {t("not_found_btn")}
         </Button>
       </div>
-
     </div>
   );
 }
