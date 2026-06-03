@@ -46,7 +46,7 @@ export const characterControllerGetMe = (
 
 
       return customInstance<CharacterResponseDto>(
-      {url: `https://gained-minneapolis-mart-guests.trycloudflare.com/character/me`, method: 'GET', signal
+      {url: `https://vault-additionally-proposed-enhancement.trycloudflare.com/character/me`, method: 'GET', signal
     },
       options);
     }
@@ -56,7 +56,7 @@ export const characterControllerGetMe = (
 
 export const getCharacterControllerGetMeQueryKey = () => {
     return [
-    `https://gained-minneapolis-mart-guests.trycloudflare.com/character/me`
+    `https://vault-additionally-proposed-enhancement.trycloudflare.com/character/me`
     ] as const;
     }
 
@@ -138,7 +138,7 @@ export const characterControllerUpgradeStat = (
 
 
       return customInstance<CharacterResponseDto>(
-      {url: `https://gained-minneapolis-mart-guests.trycloudflare.com/character/upgrade-stat`, method: 'POST',
+      {url: `https://vault-additionally-proposed-enhancement.trycloudflare.com/character/upgrade-stat`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: upgradeStatDto, signal
     },
@@ -201,7 +201,7 @@ export const characterControllerBreakthrough = (
 
 
       return customInstance<CharacterResponseDto>(
-      {url: `https://gained-minneapolis-mart-guests.trycloudflare.com/character/breakthrough`, method: 'POST', signal
+      {url: `https://vault-additionally-proposed-enhancement.trycloudflare.com/character/breakthrough`, method: 'POST', signal
     },
       options);
     }

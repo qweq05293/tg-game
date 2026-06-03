@@ -76,6 +76,7 @@ export class AuthService {
             name: tgUser.username
               ? `@${tgUser.username}`
               : `${tgUser.first_name}'s Character`,
+            avatar: tgUser.photo_url || null,
             stage: 1,
             level: 1,
             exp: 100, // Дадим немного начальной Ци на первый апгрейд!

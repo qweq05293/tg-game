@@ -6,14 +6,6 @@ import { CharacterResponseDto, UpgradeStatDto } from "./dto/upgrade-stat.dto";
 @Injectable()
 export class CharacterService {
   constructor(private readonly prisma: PrismaService) {}
-
-  /**
-   * 1. Вспомогательный метод: расчет накопленной Ци в реальном времени
-   */
-
-  /**
-   * 2. Получение профиля персонажа с динамическими данными пассивного дохода
-   */
   async getCharacter(userId: string): Promise<CharacterResponseDto> {
     const character = await this.prisma.character.findUnique({
       where: { userId },
@@ -26,13 +18,6 @@ export class CharacterService {
     return character;
   }
 
-  /**
-   * 3. Метод сбора накопленной пассивной Ци
-   */
-
-  /**
-   * 4. Прокачка характеристик персонажа за Ци (Возвращает чистое DTO)
-   */
   async upgradeStat(
     userId: string,
     dto: UpgradeStatDto,
@@ -105,9 +90,6 @@ export class CharacterService {
     });
   }
 
-  /**
-   * 5. Ручной прорыв на следующую крупную стадию (Возвращает чистое DTO)
-   */
   async breakthrough(userId: string): Promise<CharacterResponseDto> {
     const character = await this.prisma.character.findUnique({
       where: { userId },

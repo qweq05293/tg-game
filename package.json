@@ -13,6 +13,7 @@
     "frontend": "pnpm --filter frontend",
     "backend": "pnpm --filter backend",
     "tunel": "tsx scripts/update-env.ts",
+    "api": "pnpm -f frontend gen:api",
     "lint": "pnpm -r lint",
     "format": "prettier --write -w .",
     "test": "pnpm -f backend test && pnpm -f backend test:e2e && pnpm -f frontend test ",

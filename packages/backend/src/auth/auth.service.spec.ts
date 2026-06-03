@@ -172,6 +172,7 @@ describe("AuthService (Unit)", () => {
           character: {
             create: {
               name: `@${mockTelegramUser.username}`,
+              avatar: "http://example.com",
               stage: 1,
               level: 1,
               exp: 100,

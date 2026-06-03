@@ -1,6 +1,6 @@
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { TelegramBackButton } from "@/components/TelegramBackButton";
-import HomePage from "@/pages/HomePage";
+import HomePage from "@/pages/Home/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage"; // Создайте этот компонент
 import SettingsPage from "@/pages/SettingsPage";
 import { useEffect } from "react";

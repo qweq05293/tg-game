@@ -34,7 +34,7 @@ export const authControllerLogin = (
 
 
       return customInstance<TelegramLoginResponseDto>(
-      {url: `https://gained-minneapolis-mart-guests.trycloudflare.com/auth/telegram`, method: 'POST',
+      {url: `https://vault-additionally-proposed-enhancement.trycloudflare.com/auth/telegram`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: telegramLoginRequestDto, signal
     },

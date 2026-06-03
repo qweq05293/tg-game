@@ -35,6 +35,7 @@ model Character {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   name         String   @unique
+  avatar        String?
 
   level        Int      @default(1)   // Текущий уровень внутри стадии (например, 1-9 слой)
   stage        Int      @default(1)   // ID крупной стадии (1 = Конденсация Ци, 2 = Возведение Основания и т.д.)

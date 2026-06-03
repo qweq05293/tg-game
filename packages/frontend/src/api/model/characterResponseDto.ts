@@ -4,10 +4,13 @@
  * TG Game API
  * OpenAPI spec version: 1.0
  */
+import type { CharacterResponseDtoAvatar } from './characterResponseDtoAvatar';
 
 export interface CharacterResponseDto {
   id: string;
   userId: string;
+  name: string;
+  avatar: CharacterResponseDtoAvatar;
   stage: number;
   level: number;
   exp: number;

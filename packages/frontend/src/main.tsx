@@ -13,8 +13,8 @@ import { toast } from "sonner";
 import App from "./App.tsx";
 import { Toaster } from "./components/ui/sonner.tsx";
 import "./i18n";
-import i18n from "./i18n";
 import "./index.css";
+import i18n from "./i18n";
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {

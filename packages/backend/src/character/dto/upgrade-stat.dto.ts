@@ -11,6 +11,9 @@ export class UpgradeStatDto {
 export class CharacterResponseDto {
   @ApiProperty({ example: "id123" }) id!: string;
   @ApiProperty({ example: "user123" }) userId!: string;
+  @ApiProperty({ example: "alex" }) name!: string;
+  @ApiProperty({ example: "https://example.com/avatar.jpg" })
+  avatar!: string | null;
   @ApiProperty({ example: 1 }) stage!: number;
   @ApiProperty({ example: 1 }) level!: number;
   @ApiProperty({ example: 0 }) exp!: number;
