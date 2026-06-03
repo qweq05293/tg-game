@@ -1,3 +1,4 @@
 pnpm lint
 pnpm build
+pnpm test
 git add .

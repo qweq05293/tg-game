@@ -58,6 +58,8 @@ const resources = {
     stage_title: "Stage {{stage}}",
     claim_qi_btn: "Condense Qi",
     upgrade_btn: "Upgrade",
+    pagination_status: "Showing {{start}}–{{end}} of {{total}}",
+    soon: "Soon",
   },
   ru: {
     translation: {
@@ -113,6 +115,8 @@ const resources = {
       stage_title: "{{stage}} Стадия",
       claim_qi_btn: "Собрать Ци",
       upgrade_btn: "Качать",
+      pagination_status: "Показано {{start}}–{{end}} из {{total}}",
+      soon: "Скоро",
     },
   },
 };
