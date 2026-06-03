@@ -2,11 +2,12 @@
   "name": "tg-game",
   "version": "1.0.0",
   "scripts": {
-    "db:up": "docker compose --project-directory packages/backend -f packages/backend/docker-compose.yml up -d",
+    "db": "docker compose --project-directory packages/backend -f packages/backend/docker-compose.yml up -d",
     "db:down": "docker compose --project-directory packages/backend -f packages/backend/docker-compose.yml down",
     "prisma:generate": "pnpm --filter backend exec prisma generate",
     "prisma:migrate": "pnpm --filter backend exec prisma migrate dev",
     "prisma:studio": "pnpm --filter backend exec prisma studio",
+    "prisma": "pnpm prisma:generate && pnpm prisma:migrate",
     "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
     "build": "pnpm -r build",
     "frontend": "pnpm --filter frontend",

@@ -1,6 +1,5 @@
 // Проверьте ваш путь к Orval хукам
 import {
-  useCharacterControllerClaimQi,
   useCharacterControllerGetMe,
   useCharacterControllerUpgradeStat,
 } from "@/api/character/character";
@@ -21,15 +20,6 @@ export default function CharacterPage() {
   // Мутации для прокачки и сбора
   const { mutate: upgrade, isPending: isUpgrading } =
     useCharacterControllerUpgradeStat({
-      mutation: {
-        onSuccess: () => {
-          notificationSuccess();
-          refetch();
-        },
-      },
-    });
-  const { mutate: claimQi, isPending: isClaiming } =
-    useCharacterControllerClaimQi({
       mutation: {
         onSuccess: () => {
           notificationSuccess();
@@ -98,30 +88,6 @@ export default function CharacterPage() {
               {char.exp}
             </span>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Блок AFK Дохода */}
-      <Card className="bg-card/40 backdrop-blur-md border-muted/40">
-        <CardContent className="flex items-center justify-between p-4">
-          <div className="space-y-0.5">
-            <span className="text-xs text-muted-foreground block">
-              Сгустившаяся Ци:
-            </span>
-            <span className="text-xl font-bold font-mono text-primary">
-              {char.pendingQi}
-            </span>
-          </div>
-          <Button
-            disabled={char.pendingQi <= 0 || isClaiming}
-            onClick={() => {
-              impactLight();
-              claimQi();
-            }}
-            size="sm"
-          >
-            {t("claim_qi_btn")}
-          </Button>
         </CardContent>
       </Card>
 

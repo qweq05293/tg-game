@@ -181,7 +181,6 @@ describe("AuthService (Unit)", () => {
               constitution: 1,
               maxHp: 100,
               hp: 100,
-              lastClaimAt: expect.any(Date) as Date,
             },
           },
         },

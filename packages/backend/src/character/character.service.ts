@@ -1,13 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { Character, Prisma } from "../../generated/prisma/client";
+import { Prisma } from "../../generated/prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
-import {
-  CharacterResponseDto,
-  CharacterWithPendingResponseDto,
-  UpgradeStatDto,
-} from "./dto/upgrade-stat.dto";
-
-const MAX_AFK_TIME_MS = 8 * 60 * 60 * 1000; // Лимит накопления: 8 часов
+import { CharacterResponseDto, UpgradeStatDto } from "./dto/upgrade-stat.dto";
 
 @Injectable()
 export class CharacterService {
@@ -16,43 +10,11 @@ export class CharacterService {
   /**
    * 1. Вспомогательный метод: расчет накопленной Ци в реальном времени
    */
-  calculatePendingQi(character: Character) {
-    const now = Date.now();
-
-    // Безопасное приведение типа для обхода багов автогенерации Prisma в IDE
-    const lastClaimDate = character.lastClaimAt;
-    const lastClaim = lastClaimDate.getTime();
-
-    let elapsedMs = now - lastClaim;
-    let isFull = false;
-
-    // Ограничение накопления в 8 часов
-    if (elapsedMs >= MAX_AFK_TIME_MS) {
-      elapsedMs = MAX_AFK_TIME_MS;
-      isFull = true;
-    }
-
-    // Скорость генерации: (Дух * 1) единиц Ци в секунду
-    const qiPerSecond = character.spirit * 1;
-    const elapsedSeconds = elapsedMs / 1000;
-    const pendingQi = Math.floor(elapsedSeconds * qiPerSecond);
-
-    // Расчет оставшегося времени до заполнения склада
-    const totalLimitSeconds = MAX_AFK_TIME_MS / 1000;
-    const secondsLeft = Math.max(
-      0,
-      Math.floor(totalLimitSeconds - elapsedSeconds),
-    );
-
-    return { pendingQi, isFull, secondsLeft };
-  }
 
   /**
    * 2. Получение профиля персонажа с динамическими данными пассивного дохода
    */
-  async getCharacterWithPending(
-    userId: string,
-  ): Promise<CharacterWithPendingResponseDto> {
+  async getCharacter(userId: string): Promise<CharacterResponseDto> {
     const character = await this.prisma.character.findUnique({
       where: { userId },
     });
@@ -61,51 +23,12 @@ export class CharacterService {
       throw new BadRequestException({ key: "err_character_not_found" });
     }
 
-    const { pendingQi, isFull, secondsLeft } =
-      this.calculatePendingQi(character);
-
-    return {
-      ...character,
-      pendingQi,
-      isStorageFull: isFull,
-      storageSecondsLeft: secondsLeft,
-    };
+    return character;
   }
 
   /**
    * 3. Метод сбора накопленной пассивной Ци
    */
-  async claimQi(userId: string): Promise<CharacterWithPendingResponseDto> {
-    const character = await this.prisma.character.findUnique({
-      where: { userId },
-    });
-
-    if (!character) {
-      throw new BadRequestException({ key: "err_character_not_found" });
-    }
-
-    const { pendingQi } = this.calculatePendingQi(character);
-
-    if (pendingQi <= 0) {
-      throw new BadRequestException({ key: "err_claim_too_early" });
-    }
-
-    // Начисляем Ци на баланс (exp) и обновляем таймер на текущее время
-    const updatedCharacter = await this.prisma.character.update({
-      where: { userId },
-      data: {
-        exp: character.exp + pendingQi,
-        lastClaimAt: new Date(),
-      },
-    });
-
-    return {
-      ...updatedCharacter,
-      pendingQi: 0,
-      isStorageFull: false,
-      storageSecondsLeft: MAX_AFK_TIME_MS / 1000,
-    };
-  }
 
   /**
    * 4. Прокачка характеристик персонажа за Ци (Возвращает чистое DTO)

@@ -9,11 +9,7 @@ import { AuthGuard } from "../auth/auth.guard";
 import { CurrentUser } from "../auth/current-user.decorator";
 import type { JwtPayload } from "../auth/telegram/telegram-tipes";
 import { CharacterService } from "./character.service";
-import {
-  CharacterResponseDto,
-  CharacterWithPendingResponseDto, // Импортируем новое DTO
-  UpgradeStatDto,
-} from "./dto/upgrade-stat.dto";
+import { CharacterResponseDto, UpgradeStatDto } from "./dto/upgrade-stat.dto";
 
 @ApiTags("character")
 @ApiBearerAuth()
@@ -26,20 +22,9 @@ export class CharacterController {
   @ApiOperation({
     summary: "Получить профиль персонажа с учетом накопленной Ци",
   })
-  @ApiOkResponse({ type: CharacterWithPendingResponseDto }) // Используем расширенное DTO
-  async getMe(
-    @CurrentUser() user: JwtPayload,
-  ): Promise<CharacterWithPendingResponseDto> {
-    return this.characterService.getCharacterWithPending(user.id);
-  }
-
-  @Post("claim-qi")
-  @ApiOperation({ summary: "Забрать накопленную пассивную Ци" })
   @ApiOkResponse({ type: CharacterResponseDto }) // Используем расширенное DTO
-  async claimQi(
-    @CurrentUser() user: JwtPayload,
-  ): Promise<CharacterResponseDto> {
-    return this.characterService.claimQi(user.id);
+  async getMe(@CurrentUser() user: JwtPayload): Promise<CharacterResponseDto> {
+    return this.characterService.getCharacter(user.id);
   }
 
   @Post("upgrade-stat")

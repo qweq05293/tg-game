@@ -17,5 +17,4 @@ export interface CharacterResponseDto {
   constitution: number;
   maxHp: number;
   hp: number;
-  lastClaimAt: string;
 }

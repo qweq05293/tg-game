@@ -4,107 +4,83 @@
  * TG Game API
  * OpenAPI spec version: 1.0
  */
-import { useMutation } from "@tanstack/react-query";
+import {
+  useMutation
+} from '@tanstack/react-query';
 import type {
   MutationFunction,
   QueryClient,
   UseMutationOptions,
-  UseMutationResult,
-} from "@tanstack/react-query";
+  UseMutationResult
+} from '@tanstack/react-query';
 
 import type {
   TelegramLoginRequestDto,
-  TelegramLoginResponseDto,
-} from "../model";
+  TelegramLoginResponseDto
+} from '../model';
 
-import { customInstance } from "../../lib/custom-instance";
-import type { ErrorType, BodyType } from "../../lib/custom-instance";
+import { customInstance } from '../../lib/custom-instance';
+import type { ErrorType , BodyType } from '../../lib/custom-instance';
+
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
+
+
 export const authControllerLogin = (
-  telegramLoginRequestDto: BodyType<TelegramLoginRequestDto>,
-  options?: SecondParameter<typeof customInstance>,
-  signal?: AbortSignal,
+    telegramLoginRequestDto: BodyType<TelegramLoginRequestDto>,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-  return customInstance<TelegramLoginResponseDto>(
-    {
-      url: `https://dicke-animals-grocery-acid.trycloudflare.com/auth/telegram`,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      data: telegramLoginRequestDto,
-      signal,
+
+
+      return customInstance<TelegramLoginResponseDto>(
+      {url: `https://gained-minneapolis-mart-guests.trycloudflare.com/auth/telegram`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: telegramLoginRequestDto, signal
     },
-    options,
-  );
-};
+      options);
+    }
 
-export const getAuthControllerLoginMutationOptions = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authControllerLogin>>,
-    TError,
-    { data: BodyType<TelegramLoginRequestDto> },
-    TContext
-  >;
-  request?: SecondParameter<typeof customInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof authControllerLogin>>,
-  TError,
-  { data: BodyType<TelegramLoginRequestDto> },
-  TContext
-> => {
-  const mutationKey = ["authControllerLogin"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof authControllerLogin>>,
-    { data: BodyType<TelegramLoginRequestDto> }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return authControllerLogin(data, requestOptions);
-  };
+export const getAuthControllerLoginMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: BodyType<TelegramLoginRequestDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: BodyType<TelegramLoginRequestDto>}, TContext> => {
 
-  return { mutationFn, ...mutationOptions };
-};
+const mutationKey = ['authControllerLogin'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
 
-export type AuthControllerLoginMutationResult = NonNullable<
-  Awaited<ReturnType<typeof authControllerLogin>>
->;
-export type AuthControllerLoginMutationBody = BodyType<TelegramLoginRequestDto>;
-export type AuthControllerLoginMutationError = ErrorType<unknown>;
 
-export const useAuthControllerLogin = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof authControllerLogin>>,
-      TError,
-      { data: BodyType<TelegramLoginRequestDto> },
-      TContext
-    >;
-    request?: SecondParameter<typeof customInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof authControllerLogin>>,
-  TError,
-  { data: BodyType<TelegramLoginRequestDto> },
-  TContext
-> => {
-  return useMutation(
-    getAuthControllerLoginMutationOptions(options),
-    queryClient,
-  );
-};
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerLogin>>, {data: BodyType<TelegramLoginRequestDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authControllerLogin(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerLoginMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerLogin>>>
+    export type AuthControllerLoginMutationBody = BodyType<TelegramLoginRequestDto>
+    export type AuthControllerLoginMutationError = ErrorType<unknown>
+
+    export const useAuthControllerLogin = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerLogin>>, TError,{data: BodyType<TelegramLoginRequestDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerLogin>>,
+        TError,
+        {data: BodyType<TelegramLoginRequestDto>},
+        TContext
+      > => {
+      return useMutation(getAuthControllerLoginMutationOptions(options), queryClient);
+    }
