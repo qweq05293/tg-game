@@ -7,8 +7,15 @@ interface CountdownTimerProps {
   isDisabled?: boolean;
 }
 
-export function CountdownTimer({ endTime, label, onComplete, isDisabled }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = React.useState(() => Math.max(endTime - Date.now(), 0));
+export function CountdownTimer({
+  endTime,
+  label,
+  onComplete,
+  isDisabled,
+}: CountdownTimerProps) {
+  const [timeLeft, setTimeLeft] = React.useState(() =>
+    Math.max(endTime - Date.now(), 0),
+  );
 
   // Используем ref, чтобы изменение функции onComplete не перезапускало таймер
   const onCompleteRef = React.useRef(onComplete);
@@ -30,7 +37,7 @@ export function CountdownTimer({ endTime, label, onComplete, isDisabled }: Count
     }, 200); // Проверка 5 раз в секунду гарантирует точность, даже если вкладку свернули
 
     return () => clearInterval(interval);
-  }, [endTime, isDisabled,timeLeft]);
+  }, [endTime, isDisabled, timeLeft]);
 
   if (isDisabled) return <span>00:00</span>;
 

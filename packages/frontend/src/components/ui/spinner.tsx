@@ -3,7 +3,10 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Loading03Icon } from "@hugeicons/core-free-icons";
 
 // 1. Explicitly omit native attributes that could cause object-property conflicts
-interface SpinnerProps extends Omit<React.ComponentProps<"svg">, "strokeWidth"> {
+interface SpinnerProps extends Omit<
+  React.ComponentProps<"svg">,
+  "strokeWidth"
+> {
   strokeWidth?: number; // Re-define it strictly as a number matching HugeiconsIcon
 }
 

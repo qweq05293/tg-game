@@ -53,4 +53,31 @@ model Character {
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  meditation Meditation?
 }
+model Meditation {
+  id          String   @id @default(uuid())
+
+    characterId String @unique
+      character   Character @relation(fields: [characterId], references: [userId], onDelete: Cascade)
+
+        startedAt   DateTime
+          endsAt      DateTime
+
+            duration    Int // часы
+
+              rewardExp   Int
+                rewardGold  Int
+
+                  status      MeditationStatus @default(ACTIVE)
+
+                    updatedAt   DateTime @default(now())
+                    }
+
+
+enum MeditationStatus {
+    ACTIVE
+      COMPLETED
+        CANCELLED
+        }

@@ -73,12 +73,16 @@ export function PaginationControl({
       className={cn(
         "flex flex-col md:flex-row justify-center items-center gap-4",
         isFetching && "opacity-70 pointer-events-none",
-        className
+        className,
       )}
     >
       {/* Перевод строки состояния с интерполяцией переменных */}
       <div className="text-xs text-muted-foreground w-full text-center md:text-start">
-        {t("pagination_status", { start: startItem, end: endItem, total: totalItems })}
+        {t("pagination_status", {
+          start: startItem,
+          end: endItem,
+          total: totalItems,
+        })}
       </div>
 
       <Pagination className="md:justify-end">
@@ -135,7 +139,12 @@ interface SkeletonProps {
 
 export function PaginationControlSkeleton({ className }: SkeletonProps) {
   return (
-    <div className={cn("flex flex-col md:flex-row justify-center items-center gap-4", className)}>
+    <div
+      className={cn(
+        "flex flex-col md:flex-row justify-center items-center gap-4",
+        className,
+      )}
+    >
       <div className="w-full md:w-48">
         <Skeleton className="h-4 w-32 bg-white/10 rounded-md mx-auto md:mx-0" />
       </div>

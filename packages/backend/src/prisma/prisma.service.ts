@@ -9,7 +9,8 @@ export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  private static pool: Pool;
+  // ИСПРАВЛЕНИЕ: Убираем static, делаем свойством экземпляра
+  private pool: Pool;
 
   constructor() {
     // 1. Initialize the PostgreSQL connection pool
@@ -25,7 +26,8 @@ export class PrismaService
       adapter: adapter,
     });
 
-    PrismaService.pool = pool;
+    // ИСПРАВЛЕНИЕ: Привязываем к текущему экземпляру
+    this.pool = pool;
   }
 
   async onModuleInit() {
@@ -34,6 +36,7 @@ export class PrismaService
 
   async onModuleDestroy() {
     await this.$disconnect();
-    await PrismaService.pool.end();
+    // ИСПРАВЛЕНИЕ: Закрываем именно тот пул, который принадлежит этому экземпляру
+    await this.pool.end();
   }
 }
